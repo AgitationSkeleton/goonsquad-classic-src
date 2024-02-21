@@ -79,21 +79,17 @@ extern int gEvilImpulse101;
 
 ConVar sv_autojump( "sv_autojump", "0" );
 
-ConVar hl2_walkspeed( "hl2_walkspeed", "150" );
-ConVar hl2_normspeed( "hl2_normspeed", "190" );
-ConVar hl2_sprintspeed( "hl2_sprintspeed", "320" );
+ConVar goonsquad_walkspeed( "goonsquad_walkspeed", "150" );
+ConVar goonsquad_normspeed( "goonsquad_normspeed", "320" );
+ConVar goonsquad_sprintspeed( "goonsquad_sprintspeed", "320", FCVAR_NONE, "Sprinting is disabled in code at the moment. Nonfunctional");
 
 ConVar hl2_darkness_flashlight_factor ( "hl2_darkness_flashlight_factor", "1" );
 
-#ifdef HL2MP
-	#define	HL2_WALK_SPEED 150
-	#define	HL2_NORM_SPEED 190
-	#define	HL2_SPRINT_SPEED 320
-#else
-	#define	HL2_WALK_SPEED hl2_walkspeed.GetFloat()
-	#define	HL2_NORM_SPEED hl2_normspeed.GetFloat()
-	#define	HL2_SPRINT_SPEED hl2_sprintspeed.GetFloat()
-#endif
+
+	#define	HL2_WALK_SPEED goonsquad_walkspeed.GetFloat()
+	#define	HL2_NORM_SPEED goonsquad_normspeed.GetFloat()
+	#define	HL2_SPRINT_SPEED goonsquad_sprintspeed.GetFloat()
+
 
 ConVar player_showpredictedposition( "player_showpredictedposition", "0" );
 ConVar player_showpredictedposition_timestep( "player_showpredictedposition_timestep", "1.0" );
@@ -102,6 +98,7 @@ ConVar player_squad_transient_commands( "player_squad_transient_commands", "1", 
 ConVar player_squad_double_tap_time( "player_squad_double_tap_time", "0.25" );
 
 ConVar sv_infinite_aux_power( "sv_infinite_aux_power", "0", FCVAR_CHEAT );
+
 
 ConVar autoaim_unlock_target( "autoaim_unlock_target", "0.8666" );
 
@@ -492,21 +489,21 @@ void CHL2_Player::HandleSpeedChanges( void )
 		// We want a full debounce of the key to resume sprinting after the suit is completely drained
 		if ( bWantSprint )
 		{
-			if ( sv_stickysprint.GetBool() )
-			{
-				StartAutoSprint();
-			}
-			else
-			{
-				StartSprinting();
-			}
+		//	if ( sv_stickysprint.GetBool() )
+		//	{
+		//		StartAutoSprint();
+		//	}
+		//	else
+		//	{
+		//		StartSprinting();
+		//	}
 		}
 		else
 		{
-			if ( !sv_stickysprint.GetBool() )
-			{
-				StopSprinting();
-			}
+		//	if ( !sv_stickysprint.GetBool() )
+		//	{
+		//		StopSprinting();
+		//	}
 			// Reset key, so it will be activated post whatever is suppressing it.
 			m_nButtons &= ~IN_SPEED;
 		}
@@ -1213,7 +1210,7 @@ void CHL2_Player::StartSprinting( void )
 
 	CPASAttenuationFilter filter( this );
 	filter.UsePredictionRules();
-	EmitSound( filter, entindex(), "HL2Player.SprintStart" );
+	//EmitSound( filter, entindex(), "HL2Player.SprintStart" );
 
 	SetMaxSpeed( HL2_SPRINT_SPEED );
 	m_fIsSprinting = true;

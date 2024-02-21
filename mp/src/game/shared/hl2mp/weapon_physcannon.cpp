@@ -65,8 +65,8 @@ ConVar physcannon_ball_cone( "physcannon_ball_cone", "0.997", FCVAR_REPLICATED |
 ConVar player_throwforce( "player_throwforce", "1000", FCVAR_REPLICATED | FCVAR_CHEAT );
 
 #ifndef CLIENT_DLL
-extern ConVar hl2_normspeed;
-extern ConVar hl2_walkspeed;
+extern ConVar goonsquad_normspeed;
+extern ConVar goonsquad_walkspeed;
 #endif
 
 #define PHYSCANNON_BEAM_SPRITE "sprites/orangelight1.vmt"
@@ -628,7 +628,7 @@ void CGrabController::DetachEntity( bool bClearVelocity )
 			else
 			{
 #ifndef CLIENT_DLL
-				ClampPhysicsVelocity( pPhys, hl2_normspeed.GetFloat() * 1.5f, 2.0f * 360.0f );
+				ClampPhysicsVelocity( pPhys, goonsquad_normspeed.GetFloat() * 1.5f, 2.0f * 360.0f );
 #endif
 			}
 
@@ -2401,7 +2401,7 @@ void CWeaponPhysCannon::DetachObject( bool playSound, bool wasLaunched )
 	if( pOwner != NULL )
 	{
 		pOwner->EnableSprint( true );
-		pOwner->SetMaxSpeed( hl2_normspeed.GetFloat() );
+		pOwner->SetMaxSpeed( goonsquad_normspeed.GetFloat() );
 	}
 
 	CBaseEntity *pObject = m_grabController.GetAttached();

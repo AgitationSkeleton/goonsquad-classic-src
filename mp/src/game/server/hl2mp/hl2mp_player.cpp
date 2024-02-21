@@ -35,6 +35,10 @@
 #include "tier0/memdbgon.h"
 #endif // SDK2013CE
 
+ConVar goonsquad_enable_object_pickup("goonsquad_enable_object_pickup", "0", FCVAR_REPLICATED, "Enables HL2 object pickup logic. Activate your inner goon-jutsu and kill someone by throwing a can at their head.");
+ConVar goonsquad_object_pickup_maxmass("goonsquad_object_pickup_maxmass", "35", FCVAR_REPLICATED, "If pickup is enabled, how much mass can a goon carry?");
+ConVar goonsquad_object_pickup_maxsize("goonsquad_object_pickup_maxsize", "128", FCVAR_REPLICATED, "If pickup is enabled, how large is too large? ;-)");
+
 int g_iLastCitizenModel = 0;
 int g_iLastCombineModel = 0;
 
@@ -449,7 +453,23 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize )
 {
-	
+	if (!goonsquad_enable_object_pickup.GetBool())
+		return;
+	// can't pick up what you're standing on
+	if (GetGroundEntity() == pObject)
+		return;
+
+	if (bLimitMassAndSize == true)
+	{
+		if (CBasePlayer::CanPickupObject(pObject, goonsquad_object_pickup_maxmass.GetFloat(), goonsquad_object_pickup_maxsize.GetFloat()) == false)
+			return;
+	}
+
+	// Can't be picked up if NPCs are on me
+	if (pObject->HasNPCsOnIt())
+		return;
+
+	PlayerPickupObject(this, pObject);
 }
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )
@@ -805,7 +825,7 @@ Activity CHL2MP_Player::TranslateTeamActivity( Activity ActToTranslate )
 	return ActToTranslate;
 }
 
-extern ConVar hl2_normspeed;
+extern ConVar goonsquad_normspeed;
 
 #ifndef SDK2013CE
 // Set the activity based on an event or current state

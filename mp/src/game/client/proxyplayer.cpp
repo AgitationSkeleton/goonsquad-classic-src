@@ -322,6 +322,120 @@ void CEntitySpeedProxy::OnBind( void *pC_BaseEntity )
 
 EXPOSE_INTERFACE( CEntitySpeedProxy, IMaterialProxy, "EntitySpeed" IMATERIAL_PROXY_INTERFACE_VERSION );
 
+//-------------------------------------------------
+//	TF2 burn proxy for compatability, placeholder
+//-------------------------------------------------
+class CProxyBurnLevel : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity);
+};
+
+void CProxyBurnLevel::OnBind(void* pC_BaseEntity)
+{
+	// Find the view angle between the player and this entity....
+	if (!pC_BaseEntity)
+		return;
+
+	// Find the view angle between the player and this entity....
+	//C_BaseEntity* pEntity = BindArgToEntity(pC_BaseEntity);
+
+	Assert(m_pResult);
+	//m_pResult->SetFloatValue(pEntity->GetLocalVelocity().Length());
+	m_pResult->SetFloatValue(0.0f);
+	if (ToolsEnabled())
+	{
+		ToolFramework_RecordMaterialParams(GetMaterial());
+	}
+}
+
+EXPOSE_INTERFACE(CProxyBurnLevel, IMaterialProxy, "BurnLevel" IMATERIAL_PROXY_INTERFACE_VERSION);
+
+//-------------------------------------------------
+//	TF2 invis proxy for compatability, placeholder
+//-------------------------------------------------
+class CProxyInvisLevel : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity);
+};
+
+void CProxyInvisLevel::OnBind(void* pC_BaseEntity)
+{
+	// Find the view angle between the player and this entity....
+	if (!pC_BaseEntity)
+		return;
+
+	// Find the view angle between the player and this entity....
+	//C_BaseEntity* pEntity = BindArgToEntity(pC_BaseEntity);
+
+	Assert(m_pResult);
+	//m_pResult->SetFloatValue(pEntity->GetLocalVelocity().Length());
+	m_pResult->SetFloatValue(0.0f);
+	if (ToolsEnabled())
+	{
+		ToolFramework_RecordMaterialParams(GetMaterial());
+	}
+}
+
+EXPOSE_INTERFACE(CProxyInvisLevel, IMaterialProxy, "invis" IMATERIAL_PROXY_INTERFACE_VERSION);
+
+//-------------------------------------------------
+//	TF2 spy_invis proxy for compatability, placeholder
+//-------------------------------------------------
+class CProxySpyInvisLevel : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity);
+};
+
+void CProxySpyInvisLevel::OnBind(void* pC_BaseEntity)
+{
+	// Find the view angle between the player and this entity....
+	if (!pC_BaseEntity)
+		return;
+
+	// Find the view angle between the player and this entity....
+	//C_BaseEntity* pEntity = BindArgToEntity(pC_BaseEntity);
+
+	Assert(m_pResult);
+	//m_pResult->SetFloatValue(pEntity->GetLocalVelocity().Length());
+	m_pResult->SetFloatValue(0.0f);
+	if (ToolsEnabled())
+	{
+		ToolFramework_RecordMaterialParams(GetMaterial());
+	}
+}
+
+EXPOSE_INTERFACE(CProxySpyInvisLevel, IMaterialProxy, "spy_invis" IMATERIAL_PROXY_INTERFACE_VERSION);
+//-------------------------------------------------
+//	TF2 yellowlevel PISS!!!! proxy for compatability, placeholder
+//-------------------------------------------------
+class CProxyPissLevel : public CResultProxy
+{
+public:
+	void OnBind(void* pC_BaseEntity);
+};
+
+void CProxyPissLevel::OnBind(void* pC_BaseEntity)
+{
+	// Find the view angle between the player and this entity....
+	if (!pC_BaseEntity)
+		return;
+
+	// Find the view angle between the player and this entity....
+	//C_BaseEntity* pEntity = BindArgToEntity(pC_BaseEntity);
+
+	Assert(m_pResult);
+	//m_pResult->SetFloatValue(pEntity->GetLocalVelocity().Length());
+	m_pResult->SetFloatValue(1);
+	if (ToolsEnabled())
+	{
+		ToolFramework_RecordMaterialParams(GetMaterial());
+	}
+}
+
+EXPOSE_INTERFACE(CProxyPissLevel, IMaterialProxy, "YellowLevel" IMATERIAL_PROXY_INTERFACE_VERSION);
 
 //-----------------------------------------------------------------------------
 // Returns a random # from 0 - 1 specific to the entity it's applied to
