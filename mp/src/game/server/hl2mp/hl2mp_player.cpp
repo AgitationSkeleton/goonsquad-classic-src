@@ -138,29 +138,30 @@ END_DATADESC()
 
 const char *g_ppszRandomCitizenModels[] = 
 {
-	"models/humans/group03/male_01.mdl",
-	"models/humans/group03/male_02.mdl",
-	"models/humans/group03/female_01.mdl",
-	"models/humans/group03/male_03.mdl",
-	"models/humans/group03/female_02.mdl",
-	"models/humans/group03/male_04.mdl",
-	"models/humans/group03/female_03.mdl",
-	"models/humans/group03/male_05.mdl",
-	"models/humans/group03/female_04.mdl",
-	"models/humans/group03/male_06.mdl",
-	"models/humans/group03/female_06.mdl",
-	"models/humans/group03/male_07.mdl",
-	"models/humans/group03/female_07.mdl",
-	"models/humans/group03/male_08.mdl",
-	"models/humans/group03/male_09.mdl",
+	"models/player/gunman_rigged.mdl",
+//	"models/humans/group03/male_02.mdl",
+//	"models/humans/group03/female_01.mdl",
+//	"models/humans/group03/male_03.mdl",
+//	"models/humans/group03/female_02.mdl",
+//	"models/humans/group03/male_04.mdl",
+//	"models/humans/group03/female_03.mdl",
+//	"models/humans/group03/male_05.mdl",
+//	"models/humans/group03/female_04.mdl",
+//	"models/humans/group03/male_06.mdl",
+//	"models/humans/group03/female_06.mdl",
+//	"models/humans/group03/male_07.mdl",
+//	"models/humans/group03/female_07.mdl",
+//	"models/humans/group03/male_08.mdl",
+//	"models/humans/group03/male_09.mdl",
 };
 
 const char *g_ppszRandomCombineModels[] =
 {
-	"models/combine_soldier.mdl",
-	"models/combine_soldier_prisonguard.mdl",
-	"models/combine_super_soldier.mdl",
-	"models/police.mdl",
+	"models/player/gunman_rigged.mdl",
+//	"models/combine_soldier.mdl",
+//	"models/combine_soldier_prisonguard.mdl",
+//	"models/combine_super_soldier.mdl",
+//	"models/police.mdl",
 };
 
 
@@ -356,7 +357,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 				{
 					char szReturnString[512];
 
-					Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel models/combine_soldier.mdl\n" );
+					Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel models/player/gunman_rigged.mdl\n" );
 					engine->ClientCommand ( edict(), szReturnString );
 				}
 
@@ -503,48 +504,49 @@ void CHL2MP_Player::SetPlayerTeamModel( void )
 	const char *szModelName = NULL;
 	szModelName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_playermodel" );
 
-	int modelIndex = modelinfo->GetModelIndex( szModelName );
+	//int modelIndex = modelinfo->GetModelIndex( szModelName );
 
-	if ( modelIndex == -1 || ValidatePlayerModel( szModelName ) == false )
-	{
-		szModelName = "models/Combine_Soldier.mdl";
-		m_iModelType = TEAM_COMBINE;
+//	if ( modelIndex == -1 || ValidatePlayerModel( szModelName ) == false )
+//	{
+//		szModelName = "models/Combine_Soldier.mdl";
+//		m_iModelType = TEAM_COMBINE;
+//
+//		char szReturnString[512];
+//
+//		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", szModelName );
+//		engine->ClientCommand ( edict(), szReturnString );
+//	}
 
-		char szReturnString[512];
+//	if ( GetTeamNumber() == TEAM_COMBINE )
+//	{
+//		if ( Q_stristr( szModelName, "models/human") )
+//		{
+//			int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
+//		
+//			g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
+//			szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
+//		}
+//
+//		m_iModelType = TEAM_COMBINE;
+//	}
+//	else if ( GetTeamNumber() == TEAM_REBELS )
+//	{
+//		if ( !Q_stristr( szModelName, "models/human") )
+//		{
+//			int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
+//
+//			g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
+//			szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
+//		}
+//
+//		m_iModelType = TEAM_REBELS;
+///	}
+//	
+//	SetModel( szModelName );
+	SetModel("models/player/gunman_rigged.mdl");
+	SetupPlayerSoundsByModel( "models/player/gunman_rigged.mdl" );
 
-		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", szModelName );
-		engine->ClientCommand ( edict(), szReturnString );
-	}
-
-	if ( GetTeamNumber() == TEAM_COMBINE )
-	{
-		if ( Q_stristr( szModelName, "models/human") )
-		{
-			int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
-		
-			g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
-			szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
-		}
-
-		m_iModelType = TEAM_COMBINE;
-	}
-	else if ( GetTeamNumber() == TEAM_REBELS )
-	{
-		if ( !Q_stristr( szModelName, "models/human") )
-		{
-			int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
-
-			g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
-			szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
-		}
-
-		m_iModelType = TEAM_REBELS;
-	}
-	
-	SetModel( szModelName );
-	SetupPlayerSoundsByModel( szModelName );
-
-	m_flNextModelChangeTime = gpGlobals->curtime + MODEL_CHANGE_INTERVAL;
+//	m_flNextModelChangeTime = gpGlobals->curtime + MODEL_CHANGE_INTERVAL;
 }
 
 void CHL2MP_Player::SetPlayerModel( void )
@@ -560,7 +562,7 @@ void CHL2MP_Player::SetPlayerModel( void )
 
 		if ( ValidatePlayerModel( pszCurrentModelName ) == false )
 		{
-			pszCurrentModelName = "models/Combine_Soldier.mdl";
+			pszCurrentModelName = "models/player/gunman_rigged.mdl";
 		}
 
 		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", pszCurrentModelName );
@@ -569,46 +571,46 @@ void CHL2MP_Player::SetPlayerModel( void )
 		szModelName = pszCurrentModelName;
 	}
 
-	if ( GetTeamNumber() == TEAM_COMBINE )
-	{
-		int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
-		
-		g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
-		szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
-
-		m_iModelType = TEAM_COMBINE;
-	}
-	else if ( GetTeamNumber() == TEAM_REBELS )
-	{
-		int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
-
-		g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
-		szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
-
-		m_iModelType = TEAM_REBELS;
-	}
-	else
-	{
-		if ( Q_strlen( szModelName ) == 0 ) 
-		{
-			szModelName = g_ppszRandomCitizenModels[0];
-		}
-
-		if ( Q_stristr( szModelName, "models/human") )
-		{
-			m_iModelType = TEAM_REBELS;
-		}
-		else
-		{
-			m_iModelType = TEAM_COMBINE;
-		}
-	}
+//	if ( GetTeamNumber() == TEAM_COMBINE )
+//	{
+//		int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
+//		
+//		g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
+//		szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
+//
+//		m_iModelType = TEAM_COMBINE;
+//	}
+//	else if ( GetTeamNumber() == TEAM_REBELS )
+//	{
+//		int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
+//
+//		g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
+//		szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
+//
+//		m_iModelType = TEAM_REBELS;
+//	}
+//	else
+//	{
+//		if ( Q_strlen( szModelName ) == 0 ) 
+//		{
+//			szModelName = g_ppszRandomCitizenModels[0];
+//		}
+//
+//		if ( Q_stristr( szModelName, "models/human") )
+//		{
+//			m_iModelType = TEAM_REBELS;
+//		}
+//		else
+//		{
+//			m_iModelType = TEAM_COMBINE;
+//		}
+//	}
 
 	int modelIndex = modelinfo->GetModelIndex( szModelName );
 
 	if ( modelIndex == -1 )
 	{
-		szModelName = "models/Combine_Soldier.mdl";
+		szModelName = "models/player/gunman_rigged.mdl";
 		m_iModelType = TEAM_COMBINE;
 
 		char szReturnString[512];

@@ -54,6 +54,7 @@ ConVar player_limit_jump_speed( "player_limit_jump_speed", "1", FCVAR_REPLICATED
 // convar which is ONLY set by the X360 controller menu to tell us which way to bind the
 // duck controls. Its value is meaningless anytime we don't have the options window open.
 ConVar option_duck_method("option_duck_method", "1", FCVAR_REPLICATED|FCVAR_ARCHIVE );// 0 = HOLD to duck, 1 = Duck is a toggle
+ConVar sv_autobunnyhop("sv_autobunnyhop", "1", FCVAR_REPLICATED);
 
 #ifdef STAGING_ONLY
 #ifdef CLIENT_DLL
@@ -2403,9 +2404,12 @@ bool CGameMovement::CheckJumpButton( void )
 	if ( player->m_Local.m_bSlowMovement )
 		return false;
 #endif
+	if (sv_autobunnyhop.GetInt() == 0) {
+		if (mv->m_nOldButtons & IN_JUMP)
+			return false;
 
-	if ( mv->m_nOldButtons & IN_JUMP )
-		return false;		// don't pogo stick
+	}
+		// don't pogo stick
 
 	// Cannot jump will in the unduck transition.
 	if ( player->m_Local.m_bDucking && (  player->GetFlags() & FL_DUCKING ) )
@@ -2432,13 +2436,10 @@ bool CGameMovement::CheckJumpButton( void )
 	float flMul;
 	if ( g_bMovementOptimizations )
 	{
-#if defined(HL2_DLL) || defined(HL2_CLIENT_DLL)
-		Assert( GetCurrentGravity() == 600.0f );
-		flMul = 160.0f;	// approx. 21 units.
-#else
+
 		Assert( GetCurrentGravity() == 800.0f );
 		flMul = 268.3281572999747f;
-#endif
+
 
 	}
 	else
