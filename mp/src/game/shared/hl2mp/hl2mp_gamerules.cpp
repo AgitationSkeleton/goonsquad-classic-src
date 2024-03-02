@@ -72,22 +72,22 @@ LINK_ENTITY_TO_CLASS( hl2mp_gamerules, CHL2MPGameRulesProxy );
 IMPLEMENT_NETWORKCLASS_ALIASED( HL2MPGameRulesProxy, DT_HL2MPGameRulesProxy )
 
 static HL2MPViewVectors g_HL2MPViewVectors(
-	Vector( 0, 0, 64 ),       //VEC_VIEW (m_vView) 
+	Vector( 0, 0, 68 ),       //VEC_VIEW (m_vView) 
 							  
-	Vector(-16, -16, 0 ),	  //VEC_HULL_MIN (m_vHullMin)
-	Vector( 16,  16,  72 ),	  //VEC_HULL_MAX (m_vHullMax)
+	Vector(-24, -24, 0 ),	  //VEC_HULL_MIN (m_vHullMin)
+	Vector( 24,  24,  82 ),	  //VEC_HULL_MAX (m_vHullMax)
 							  					
-	Vector(-16, -16, 0 ),	  //VEC_DUCK_HULL_MIN (m_vDuckHullMin)
-	Vector( 16,  16,  36 ),	  //VEC_DUCK_HULL_MAX	(m_vDuckHullMax)
-	Vector( 0, 0, 28 ),		  //VEC_DUCK_VIEW		(m_vDuckView)
+	Vector(-24, -24, 0 ),	  //VEC_DUCK_HULL_MIN (m_vDuckHullMin)
+	Vector( 24,  24,  55 ),	  //VEC_DUCK_HULL_MAX	(m_vDuckHullMax)
+	Vector( 0, 0, 45 ),		  //VEC_DUCK_VIEW		(m_vDuckView)
 							  					
 	Vector(-10, -10, -10 ),	  //VEC_OBS_HULL_MIN	(m_vObsHullMin)
 	Vector( 10,  10,  10 ),	  //VEC_OBS_HULL_MAX	(m_vObsHullMax)
 							  					
 	Vector( 0, 0, 14 ),		  //VEC_DEAD_VIEWHEIGHT (m_vDeadViewHeight)
 
-	Vector(-16, -16, 0 ),	  //VEC_CROUCH_TRACE_MIN (m_vCrouchTraceMin)
-	Vector( 16,  16,  60 )	  //VEC_CROUCH_TRACE_MAX (m_vCrouchTraceMax)
+	Vector(-24, -24, 0 ),	  //VEC_CROUCH_TRACE_MIN (m_vCrouchTraceMin)
+	Vector( 24,  24,  45 )	  //VEC_CROUCH_TRACE_MAX (m_vCrouchTraceMax)
 );
 
 static const char *s_PreserveEnts[] =

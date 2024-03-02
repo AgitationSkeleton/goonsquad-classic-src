@@ -19,6 +19,9 @@
 #include "hl2mptextwindow.h"
 #include "ienginevgui.h"
 
+ConVar default_fov("default_fov", "90", FCVAR_ARCHIVE);
+ConVar fov_desired("fov_desired", "90", FCVAR_ARCHIVE | FCVAR_USERINFO, "Sets the field-of-view for the player.", true, 75, true, 130);
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 //-----------------------------------------------------------------------------

@@ -31,7 +31,8 @@
 #include "panelmetaclassmgr.h"
 
 
-ConVar default_fov( "default_fov", "90", FCVAR_CHEAT );
+ConVar default_fov( "default_fov", "90", FCVAR_ARCHIVE );
+ConVar fov_desired("fov_desired", "90", FCVAR_ARCHIVE | FCVAR_USERINFO, "Sets the field-of-view for the player.", true, 75, true, 130);
 
 IClientMode *g_pClientMode = NULL;
 
