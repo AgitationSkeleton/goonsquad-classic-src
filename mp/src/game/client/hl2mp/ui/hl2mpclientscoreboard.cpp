@@ -30,8 +30,8 @@ using namespace vgui;
 // id's of sections used in the scoreboard
 enum EScoreboardSections
 {
-	SCORESECTION_COMBINE = 1,
-	SCORESECTION_REBELS = 2,
+	SCORESECTION_BLUE = 1,
+	SCORESECTION_GREEN = 2,
 	SCORESECTION_FREEFORALL = 3,
 	SCORESECTION_SPECTATOR = 4
 };
@@ -498,9 +498,9 @@ int CHL2MPClientScoreBoardDialog::GetSectionFromTeamNumber( int teamNumber )
 	switch ( teamNumber )
 	{
 	case TEAM_COMBINE:
-		return SCORESECTION_COMBINE;
+		return SCORESECTION_BLUE;
 	case TEAM_REBELS:
-		return SCORESECTION_REBELS;
+		return SCORESECTION_GREEN;
 	case TEAM_SPECTATOR:
 		return SCORESECTION_SPECTATOR;
 	default:

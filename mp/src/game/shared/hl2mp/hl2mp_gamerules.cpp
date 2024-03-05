@@ -87,7 +87,7 @@ static HL2MPViewVectors g_HL2MPViewVectors(
 	Vector( 0, 0, 14 ),		  //VEC_DEAD_VIEWHEIGHT (m_vDeadViewHeight)
 
 	Vector(-24, -24, 0 ),	  //VEC_CROUCH_TRACE_MIN (m_vCrouchTraceMin)
-	Vector( 24,  24,  45 )	  //VEC_CROUCH_TRACE_MAX (m_vCrouchTraceMax)
+	Vector( 24,  24,  55 )	  //VEC_CROUCH_TRACE_MAX (m_vCrouchTraceMax)
 );
 
 static const char *s_PreserveEnts[] =
@@ -128,6 +128,7 @@ static const char *s_PreserveEnts[] =
 	"trigger_soundscape",
 	"viewmodel",
 	"predicted_viewmodel",
+	"hand_viewmodel", // Our new viewmodel entity
 	"worldspawn",
 	"point_devshot_camera",
 	"", // END Marker

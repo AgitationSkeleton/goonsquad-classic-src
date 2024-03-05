@@ -246,6 +246,7 @@ void CHL2MP_Player::Precache( void )
 	BaseClass::Precache();
 
 	PrecacheModel ( "sprites/glow01.vmt" );
+	PrecacheModel("models/player/gunman/c_arms_gunman.mdl");
 
 	//Precache Citizen models
 	int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
@@ -414,6 +415,10 @@ void CHL2MP_Player::Spawn(void)
 		
 		GiveDefaultItems();
 	}
+
+	DestroyViewModels();
+	CreateViewModel();
+	CreateHandModel();
 
 #ifndef SDK2013CE
 	SetNumAnimOverlays( 3 );
@@ -1215,24 +1220,64 @@ bool CHL2MP_Player::ShouldRunRateLimitedCommand( const CCommand &args )
 	}
 }
 
-void CHL2MP_Player::CreateViewModel( int index /*=0*/ )
+void CHL2MP_Player::CreateViewModel(int index /*=0*/)
 {
-	Assert( index >= 0 && index < MAX_VIEWMODELS );
+	Assert(index >= 0 && index < MAX_VIEWMODELS);
 
-	if ( GetViewModel( index ) )
+	if (GetViewModel(index))
 		return;
 
-	CPredictedViewModel *vm = ( CPredictedViewModel * )CreateEntityByName( "predicted_viewmodel" );
-	if ( vm )
+	CPredictedViewModel* vm = (CPredictedViewModel*)CreateEntityByName("predicted_viewmodel");
+	if (vm)
 	{
-		vm->SetAbsOrigin( GetAbsOrigin() );
-		vm->SetOwner( this );
-		vm->SetIndex( index );
-		DispatchSpawn( vm );
-		vm->FollowEntity( this, false );
-		m_hViewModel.Set( index, vm );
+		vm->SetAbsOrigin(GetAbsOrigin());
+		vm->SetOwner(this);
+		vm->SetIndex(index);
+		DispatchSpawn(vm);
+		vm->FollowEntity(this, false);
+		m_hViewModel.Set(index, vm);
 	}
 }
+
+////-----------------------------------------------------------------------------
+//// Purpose: 
+////-----------------------------------------------------------------------------
+//void CBasePlayer::CreateHandModel(int index, int iOtherVm)
+//{
+//	Assert(index >= 0 && index < MAX_VIEWMODELS && iOtherVm >= 0 && iOtherVm < MAX_VIEWMODELS);
+//
+//	if (GetViewModel(index))
+//		return;
+//
+//	CBaseViewModel* vm = (CBaseViewModel*)CreateEntityByName("hand_viewmodel");
+//	if (!vm)
+//		Error("fatal programming error: hand_viewmodel entity not found");
+//
+//	vm->SetAbsOrigin(GetAbsOrigin());
+//	vm->SetOwner(this);
+//	vm->SetIndex(index);
+//	DispatchSpawn(vm);
+//	vm->FollowEntity(GetViewModel(iOtherVm), true);
+//	m_hViewModel.Set(index, vm);
+//}
+//
+////-----------------------------------------------------------------------------
+//// Purpose: 
+////-----------------------------------------------------------------------------
+//void CBasePlayer::DestroyViewModels(void)
+//{
+//	int i;
+//	for (i = MAX_VIEWMODELS - 1; i >= 0; i--)
+//	{
+//		CBaseViewModel* vm = GetViewModel(i);
+//		if (!vm)
+//			continue;
+//
+//		UTIL_Remove(vm);
+//		m_hViewModel.Set(i, NULL);
+//	}
+//}
+
 
 bool CHL2MP_Player::BecomeRagdollOnClient( const Vector &force )
 {

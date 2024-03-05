@@ -513,6 +513,28 @@ void CBasePlayer::CreateViewModel( int index /*=0*/ )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
+void CBasePlayer::CreateHandModel(int index, int iOtherVm)
+{
+	Assert(index >= 0 && index < MAX_VIEWMODELS && iOtherVm >= 0 && iOtherVm < MAX_VIEWMODELS);
+
+	if (GetViewModel(index))
+		return;
+
+	CBaseViewModel* vm = (CBaseViewModel*)CreateEntityByName("hand_viewmodel");
+	if (!vm)
+		Error("fatal programming error: hand_viewmodel entity not found");
+
+	vm->SetAbsOrigin(GetAbsOrigin());
+	vm->SetOwner(this);
+	vm->SetIndex(index);
+	DispatchSpawn(vm);
+	vm->FollowEntity(GetViewModel(iOtherVm), true);
+	m_hViewModel.Set(index, vm);
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
 void CBasePlayer::DestroyViewModels( void )
 {
 	int i;
@@ -1399,11 +1421,12 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		}
 
 	// Do special explosion damage effect
-	if ( bitsDamage & DMG_BLAST )
-	{
-		OnDamagedByExplosion( info );
-	}
+	//if ( bitsDamage & DMG_BLAST )
+	//{
+	//	OnDamagedByExplosion( info );
+	//}
 
+	EmitSound("Player.Pain");
 	return fTookDamage;
 }
 
@@ -1412,8 +1435,8 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 // Input  : &info - 
 //			damageAmount - 
 //-----------------------------------------------------------------------------
-#define MIN_SHOCK_AND_CONFUSION_DAMAGE	30.0f
-#define MIN_EAR_RINGING_DISTANCE		240.0f  // 20 feet
+#define MIN_SHOCK_AND_CONFUSION_DAMAGE	99999.0f
+#define MIN_EAR_RINGING_DISTANCE		99999.0f  // 20 feet
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -1432,15 +1455,15 @@ void CBasePlayer::OnDamagedByExplosion( const CTakeDamageInfo &info )
 		distanceFromPlayer = delta.Length();
 	}
 
-	bool ear_ringing = distanceFromPlayer < MIN_EAR_RINGING_DISTANCE ? true : false;
+	//bool ear_ringing = distanceFromPlayer < MIN_EAR_RINGING_DISTANCE ? true : false;
 	bool shock = lastDamage >= MIN_SHOCK_AND_CONFUSION_DAMAGE;
 
-	if ( !shock && !ear_ringing )
+	if ( !shock )
 		return;
 
 	int effect = shock ? 
-		random->RandomInt( 35, 37 ) : 
-		random->RandomInt( 32, 34 );
+		random->RandomInt( 0, 0 ) : 
+		random->RandomInt( 0, 0 );
 
 	CSingleUserRecipientFilter user( this );
 	enginesound->SetPlayerDSP( user, effect, false );
@@ -4399,9 +4422,13 @@ void CBasePlayer::UpdatePlayerSound ( void )
 		iBodyVolume = 0;
 	}
 
-	if ( m_nButtons & IN_JUMP )
+	if (m_nButtons & IN_JUMP)
 	{
 		// Jumping is a little louder.
+		if (GetFlags() & FL_ONGROUND)
+		{
+			EmitSound("Player.Jump");
+		}
 		iBodyVolume += 100;
 	}
 
@@ -5010,6 +5037,7 @@ void CBasePlayer::Spawn( void )
 	enginesound->SetPlayerDSP( user, 0, false );
 
 	CreateViewModel();
+	CreateHandModel();
 
 	SetCollisionGroup( COLLISION_GROUP_PLAYER );
 
@@ -5093,6 +5121,8 @@ void CBasePlayer::Precache( void )
 	PrecacheScriptSound( "Player.DrownContinue" );
 	PrecacheScriptSound( "Player.Wade" );
 	PrecacheScriptSound( "Player.AmbientUnderWater" );
+	PrecacheScriptSound( "Player.Jump" );
+	PrecacheScriptSound( "Player.Pain" );
 	enginesound->PrecacheSentenceGroup( "HEV" );
 
 	// These are always needed

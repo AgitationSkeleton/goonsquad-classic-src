@@ -266,6 +266,7 @@ $Project "Server"
 			$File	"$SRCDIR\game\shared\hl2mp\hl2mp_playeranimstate.cpp"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
+			$File	"$SRCDIR\game\shared\handviewmodel_shared.cpp"
 
 			$Folder	"Weapons"
 			{
@@ -298,6 +299,8 @@ $Project "Server"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_slam.h"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_smg1.cpp"
 				$File	"$SRCDIR\game\shared\hl2mp\weapon_stunstick.cpp"
+//				$File	"$SRCDIR\game\shared\hl2mp\weapon_grapple.cpp"
+//				$File	"$SRCDIR\game\shared\hl2mp\weapon_grapple.h"
 			}
 		}
 	}
