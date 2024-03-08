@@ -29,7 +29,9 @@
 enum
 {
 	TEAM_COMBINE = 2,
-	TEAM_REBELS,
+	TEAM_REBELS = 3,
+	TEAM_RED = 4,
+	TEAM_YELLOW = 5,
 };
 
 

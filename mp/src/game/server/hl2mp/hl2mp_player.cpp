@@ -58,6 +58,8 @@ LINK_ENTITY_TO_CLASS( player, CHL2MP_Player );
 
 LINK_ENTITY_TO_CLASS( info_player_combine, CPointEntity );
 LINK_ENTITY_TO_CLASS( info_player_rebel, CPointEntity );
+LINK_ENTITY_TO_CLASS(info_player_blue, CPointEntity);
+LINK_ENTITY_TO_CLASS(info_player_green, CPointEntity);
 
 #ifdef SDK2013CE
 extern void SendProxy_Origin( const SendProp *pProp, const void *pStruct, const void *pData, DVariant *pOut, int iElement, int objectID );
@@ -247,6 +249,11 @@ void CHL2MP_Player::Precache( void )
 
 	PrecacheModel ( "sprites/glow01.vmt" );
 	PrecacheModel("models/player/gunman/c_arms_gunman.mdl");
+	PrecacheModel("models/player/gunman/gunman.mdl");
+	PrecacheModel("models/player/gunman.mdl");
+	PrecacheModel("models/player/gunman_rigged.mdl");
+	PrecacheModel("models/player/colors/gunman_rigged_green.mdl");
+	PrecacheModel("models/player/colors/gunman_rigged_blue.mdl");
 
 	//Precache Citizen models
 	int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
@@ -359,7 +366,7 @@ void CHL2MP_Player::PickDefaultSpawnTeam( void )
 				{
 					char szReturnString[512];
 
-					Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel models/player/gunman_rigged.mdl\n" );
+					Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel models/player/colors/gunman_rigged_green.mdl\n" );
 					engine->ClientCommand ( edict(), szReturnString );
 				}
 
@@ -514,7 +521,7 @@ void CHL2MP_Player::SetPlayerTeamModel( void )
 
 	if ( modelIndex == -1 || ValidatePlayerModel( szModelName ) == false )
 	{
-		szModelName = "models/player/gunman_rigged.mdl";
+		szModelName = "models/player/colors/gunman_rigged_blue.mdl";
 		m_iModelType = TEAM_COMBINE;
 
 		char szReturnString[512];
@@ -525,7 +532,7 @@ void CHL2MP_Player::SetPlayerTeamModel( void )
 
 	if ( GetTeamNumber() == TEAM_COMBINE )
 	{
-		if ( Q_stristr( szModelName, "models/human") )
+		if ( Q_stristr( szModelName, "models/player/colors/gunman_rigged_blue") )
 		{
 			int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
 		
@@ -537,7 +544,7 @@ void CHL2MP_Player::SetPlayerTeamModel( void )
 	}
 	else if ( GetTeamNumber() == TEAM_REBELS )
 	{
-		if ( !Q_stristr( szModelName, "models/human") )
+		if ( !Q_stristr( szModelName, "models/player/colors/gunman_rigged_green") )
 		{
 			int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
 
@@ -568,7 +575,7 @@ void CHL2MP_Player::SetPlayerModel( void )
 
 		if ( ValidatePlayerModel( pszCurrentModelName ) == false )
 		{
-			pszCurrentModelName = "models/player/gunman_rigged.mdl";
+			pszCurrentModelName = "models/player/colors/gunman_rigged_green.mdl";
 		}
 
 		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", pszCurrentModelName );
@@ -616,7 +623,7 @@ void CHL2MP_Player::SetPlayerModel( void )
 
 	if ( modelIndex == -1 )
 	{
-		szModelName = "models/player/gunman_rigged.mdl";
+		szModelName = "models/player/colors/gunman_rigged_blue.mdl";
 		m_iModelType = TEAM_COMBINE;
 
 		char szReturnString[512];
@@ -1528,12 +1535,12 @@ CBaseEntity* CHL2MP_Player::EntSelectSpawnPoint( void )
 	{
 		if ( GetTeamNumber() == TEAM_COMBINE )
 		{
-			pSpawnpointName = "info_player_combine";
+			pSpawnpointName = "info_player_blue";
 			pLastSpawnPoint = g_pLastCombineSpawn;
 		}
 		else if ( GetTeamNumber() == TEAM_REBELS )
 		{
-			pSpawnpointName = "info_player_rebel";
+			pSpawnpointName = "info_player_green";
 			pLastSpawnPoint = g_pLastRebelSpawn;
 		}
 

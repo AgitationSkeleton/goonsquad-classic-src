@@ -115,6 +115,8 @@ static const char *s_PreserveEnts[] =
 	"info_player_deathmatch",
 	"info_player_combine",
 	"info_player_rebel",
+	"info_player_blue",
+	"info_player_green",
 	"info_map_parameters",
 	"keyframe_rope",
 	"move_rope",
@@ -180,8 +182,8 @@ char *sTeamNames[] =
 {
 	"Unassigned",
 	"Spectator",
-	"Combine",
-	"Rebels",
+	"Blue",
+	"Green",
 };
 
 CHL2MPRules::CHL2MPRules()
