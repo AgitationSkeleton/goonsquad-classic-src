@@ -138,7 +138,7 @@ END_DATADESC()
 
 const char *g_ppszRandomCitizenModels[] = 
 {
-	"models/player/gunman_rigged.mdl",
+	"models/player/colors/gunman_rigged_green.mdl",
 //	"models/humans/group03/male_02.mdl",
 //	"models/humans/group03/female_01.mdl",
 //	"models/humans/group03/male_03.mdl",
@@ -157,7 +157,7 @@ const char *g_ppszRandomCitizenModels[] =
 
 const char *g_ppszRandomCombineModels[] =
 {
-	"models/player/gunman_rigged.mdl",
+	"models/player/colors/gunman_rigged_blue.mdl",
 //	"models/combine_soldier.mdl",
 //	"models/combine_soldier_prisonguard.mdl",
 //	"models/combine_super_soldier.mdl",
@@ -165,7 +165,7 @@ const char *g_ppszRandomCombineModels[] =
 };
 
 
-#define MAX_COMBINE_MODELS 4
+#define MAX_COMBINE_MODELS 1
 #define MODEL_CHANGE_INTERVAL 5.0f
 #define TEAM_CHANGE_INTERVAL 5.0f
 
@@ -510,49 +510,49 @@ void CHL2MP_Player::SetPlayerTeamModel( void )
 	const char *szModelName = NULL;
 	szModelName = engine->GetClientConVarValue( engine->IndexOfEdict( edict() ), "cl_playermodel" );
 
-	//int modelIndex = modelinfo->GetModelIndex( szModelName );
+	int modelIndex = modelinfo->GetModelIndex( szModelName );
 
-//	if ( modelIndex == -1 || ValidatePlayerModel( szModelName ) == false )
-//	{
-//		szModelName = "models/Combine_Soldier.mdl";
-//		m_iModelType = TEAM_COMBINE;
-//
-//		char szReturnString[512];
-//
-//		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", szModelName );
-//		engine->ClientCommand ( edict(), szReturnString );
-//	}
+	if ( modelIndex == -1 || ValidatePlayerModel( szModelName ) == false )
+	{
+		szModelName = "models/player/gunman_rigged.mdl";
+		m_iModelType = TEAM_COMBINE;
 
-//	if ( GetTeamNumber() == TEAM_COMBINE )
-//	{
-//		if ( Q_stristr( szModelName, "models/human") )
-//		{
-//			int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
-//		
-//			g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
-//			szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
-//		}
-//
-//		m_iModelType = TEAM_COMBINE;
-//	}
-//	else if ( GetTeamNumber() == TEAM_REBELS )
-//	{
-//		if ( !Q_stristr( szModelName, "models/human") )
-//		{
-//			int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
-//
-//			g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
-//			szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
-//		}
-//
-//		m_iModelType = TEAM_REBELS;
-///	}
-//	
-//	SetModel( szModelName );
-	SetModel("models/player/gunman_rigged.mdl");
+		char szReturnString[512];
+
+		Q_snprintf( szReturnString, sizeof (szReturnString ), "cl_playermodel %s\n", szModelName );
+		engine->ClientCommand ( edict(), szReturnString );
+	}
+
+	if ( GetTeamNumber() == TEAM_COMBINE )
+	{
+		if ( Q_stristr( szModelName, "models/human") )
+		{
+			int nHeads = ARRAYSIZE( g_ppszRandomCombineModels );
+		
+			g_iLastCombineModel = ( g_iLastCombineModel + 1 ) % nHeads;
+			szModelName = g_ppszRandomCombineModels[g_iLastCombineModel];
+		}
+
+		m_iModelType = TEAM_COMBINE;
+	}
+	else if ( GetTeamNumber() == TEAM_REBELS )
+	{
+		if ( !Q_stristr( szModelName, "models/human") )
+		{
+			int nHeads = ARRAYSIZE( g_ppszRandomCitizenModels );
+
+			g_iLastCitizenModel = ( g_iLastCitizenModel + 1 ) % nHeads;
+			szModelName = g_ppszRandomCitizenModels[g_iLastCitizenModel];
+		}
+
+		m_iModelType = TEAM_REBELS;
+	}
+	
+	SetModel( szModelName );
+	//SetModel("models/player/gunman_rigged.mdl");
 	SetupPlayerSoundsByModel( "models/player/gunman_rigged.mdl" );
 
-//	m_flNextModelChangeTime = gpGlobals->curtime + MODEL_CHANGE_INTERVAL;
+	m_flNextModelChangeTime = gpGlobals->curtime + MODEL_CHANGE_INTERVAL;
 }
 
 void CHL2MP_Player::SetPlayerModel( void )

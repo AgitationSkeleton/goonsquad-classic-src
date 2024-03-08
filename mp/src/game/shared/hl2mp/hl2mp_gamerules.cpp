@@ -800,9 +800,13 @@ void CHL2MPRules::ClientSettingsChanged( CBasePlayer *pPlayer )
 		}
 		else
 		{
-			if ( Q_stristr( szModelName, "models/human") )
+			if ( Q_stristr( szModelName, "gunman_rigged_green") )
 			{
 				pHL2Player->ChangeTeam( TEAM_REBELS );
+			}
+			if ( Q_stristr(szModelName, "gunman_rigged_blue") )
+			{
+				pHL2Player->ChangeTeam( TEAM_COMBINE );
 			}
 			else
 			{
@@ -814,6 +818,11 @@ void CHL2MPRules::ClientSettingsChanged( CBasePlayer *pPlayer )
 	{
 		UTIL_LogPrintf( "\"%s\" cl_cmdrate = \"%s\"\n", pHL2Player->GetPlayerName(), engine->GetClientConVarValue( pHL2Player->entindex(), "cl_cmdrate" ));
 	}
+
+	const char* pszFov = engine->GetClientConVarValue(pPlayer->entindex(), "fov_desired");
+	int iFov = atoi(pszFov);
+	iFov = clamp(iFov, 75, 130);
+	pPlayer->SetDefaultFOV(iFov);
 
 	BaseClass::ClientSettingsChanged( pPlayer );
 #endif

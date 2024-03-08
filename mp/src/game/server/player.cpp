@@ -1288,6 +1288,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG4", false, SUIT_NEXT_IN_30SEC);	// minor fracture
 			bitsDamage &= ~DMG_CLUB;
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 		if (bitsDamage & (DMG_FALL | DMG_CRUSH))
@@ -1298,6 +1299,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 				SetSuitUpdate("!HEV_DMG4", false, SUIT_NEXT_IN_30SEC);	// minor fracture
 	
 			bitsDamage &= ~(DMG_FALL | DMG_CRUSH);
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 		
@@ -1309,6 +1311,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 			//	SetSuitUpdate("!HEV_DMG0", false, SUIT_NEXT_IN_30SEC);	// minor laceration
 			
 			bitsDamage &= ~DMG_BULLET;
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 
@@ -1320,6 +1323,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 				SetSuitUpdate("!HEV_DMG0", false, SUIT_NEXT_IN_30SEC);	// minor laceration
 
 			bitsDamage &= ~DMG_SLASH;
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 		
@@ -1328,6 +1332,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG2", false, SUIT_NEXT_IN_1MIN);	// internal bleeding
 			bitsDamage &= ~DMG_SONIC;
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 
@@ -1368,6 +1373,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		if (bitsDamage & DMG_SHOCK)
 		{
 			bitsDamage &= ~DMG_SHOCK;
+			EmitSound("Player.Pain");
 			ffound = true;
 		}
 	}
@@ -1421,12 +1427,12 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		}
 
 	// Do special explosion damage effect
-	//if ( bitsDamage & DMG_BLAST )
-	//{
-	//	OnDamagedByExplosion( info );
-	//}
+	if (bitsDamage & DMG_BLAST)
+	{
+		EmitSound("Player.Pain");
+		//OnDamagedByExplosion( info );
+	}
 
-	EmitSound("Player.Pain");
 	return fTookDamage;
 }
 
